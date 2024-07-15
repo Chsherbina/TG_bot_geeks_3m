@@ -3,6 +3,8 @@ from aiogram.filters.command import Command
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 
+from bot_config import database
+
 review_router = Router()
 
 
@@ -86,5 +88,11 @@ async def process_comments(message: types.Message, state: FSMContext):
 
     data = await state.get_data()
     print(data)
+    database.execute("""
+        INSERT INTO servey_results(name, phone_number, visit_date, food_rating, cleanliness_rating, extra_comments)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """, (data['name'], data['phone_number'], data['visit_date'], data['food_rating'], data['cleanliness_rating'], data['extra_comments'])
+                     )
+    #очистить состояние
     await state.clear()
     await message.answer('Спасибо за обратную связь!!!')
