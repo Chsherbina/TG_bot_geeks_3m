@@ -19,10 +19,13 @@ async def start_handler(message: types.Message):
             ],
             [
                 types.InlineKeyboardButton(text='О нас', callback_data='about_us')
+            ],
+            [
+                types.InlineKeyboardButton(text='Оставить отзыв', callback_data='feedback')
             ]
         ]
     )
-    await message.answer(f'Привет {message.from_user.first_name}, ты в боте Щербина Аслана для Д/З', reply_markup=kb)
+    await message.answer(f'Привет {message.from_user.first_name}, Вас приветствует ресторан Ассорти!!!', reply_markup=kb)
 
 
 @start_router.callback_query(F.data == 'about_us')
