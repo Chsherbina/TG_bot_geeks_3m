@@ -87,11 +87,11 @@ async def process_comments(message: types.Message, state: FSMContext):
     await state.update_data(extra_comments=message.text)
 
     data = await state.get_data()
-    print(data)
     database.execute("""
-        INSERT INTO servey_results(name, phone_number, visit_date, food_rating, cleanliness_rating, extra_comments)
-        VALUES (?, ?, ?, ?, ?, ?)
-        """, (data['name'], data['phone_number'], data['visit_date'], data['food_rating'], data['cleanliness_rating'], data['extra_comments'])
+        INSERT INTO servey_results(name, phone_number, visit_date, food_rating, cleanliness_rating, extra_comments),
+        VALUES (?, ?, ?, ?, ?, ?),
+        """ (data['name'], data['phone_number'], data['visit_date'], data['food_rating'], data['cleanliness_rating'],
+              data['extra_comments'])
                      )
     #очистить состояние
     await state.clear()

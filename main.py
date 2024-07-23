@@ -1,6 +1,5 @@
 import asyncio
 import logging
-
 from aiogram import Bot
 
 from bot_config import bot, dp, database
@@ -10,6 +9,7 @@ from handlers.echo import echo_router
 from handlers.myinfo import myinfo_router
 from handlers.recipe import recipe_router
 from handlers.dishes import dishes_router
+
 
 
 async def on_startup(bot: Bot):
