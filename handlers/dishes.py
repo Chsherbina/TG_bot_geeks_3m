@@ -1,5 +1,6 @@
 from aiogram import types, Router, F
 from aiogram.filters.command import Command
+from aiogram.types import FSInputFile
 
 from bot_config import database
 
@@ -11,17 +12,17 @@ async def menu_handler(message: types.Message):
     kb = types.InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                types.InlineKeyboardButton(text='салаты', callback_data='салаты'),
-                types.InlineKeyboardButton(text='первое', callback_data='первое')
+                types.InlineKeyboardButton(text='Салаты', callback_data='салаты'),
+                types.InlineKeyboardButton(text='Первые блюда', callback_data='первое')
             ],
             [
-                types.InlineKeyboardButton(text='второе', callback_data='второе'),
-                types.InlineKeyboardButton(text='Десерты', callback_data='Десерты')
+                types.InlineKeyboardButton(text='Вторые блюда', callback_data='второе'),
+                types.InlineKeyboardButton(text='Десерты', callback_data='десерты')
             ],
             [
-                types.InlineKeyboardButton(text='Шашлык', callback_data='Шашлык'),
-                types.InlineKeyboardButton(text='Рыба', callback_data='Рыба'),
-                types.InlineKeyboardButton(text='Мясо', callback_data='Мясо')
+                types.InlineKeyboardButton(text='Шашлык', callback_data='шашлык'),
+                types.InlineKeyboardButton(text='Рыба', callback_data='рыба'),
+                types.InlineKeyboardButton(text='Мясо',  callback_data='мясо')
             ]
         ]
     )
@@ -31,10 +32,11 @@ async def menu_handler(message: types.Message):
         reply_markup=kb
     )
 
-signal = ('cалаты', 'первое', 'второе')
+signal = ('салаты', 'первое', 'второе', 'десерты')
+
 
 @dishes_router.callback_query(lambda call: call.data in signal)
-async def dishes_handler(call: types.CallbackQuery):
+async def dishes(call: types.CallbackQuery):
     query = """
     SELECT * FROM dishes JOIN categories ON dishes.category_id = categories.id
     WHERE categories.name = ?
@@ -43,7 +45,12 @@ async def dishes_handler(call: types.CallbackQuery):
         query=query,
         params=(call.data,)
     )
-    print(data)
+
+    for i in data:
+        photo = FSInputFile(i[5])
+        await call.message.answer_photo(photo=photo, caption=f'Блюдо: {i[1]}\n'
+                                                             f'Ингредиенты: {i[3]}. Вес: {i[2]}гр.\n'
+                                                             f'Цена: {i[4]}')
 
 
 @dishes_router.message(F.text.lower() == 'шашлык')

@@ -37,14 +37,14 @@ class Queries:
         composition TEXT,
         price INTEGER,
         photo TEXT,
-        catrgories_id INTEGER,
+        category_id INTEGER,
         UNIQUE(name),
-        FOREIGN KEY(catrgories_id) REFERENCES categories (id))
+        FOREIGN KEY(category_id) REFERENCES categories (id))
         """
 
 
     POPULATE_DISHES = """
-    INSERT OR IGNORE INTO dishes(name, weight, composition, price, photo, catrgories_id) VALUES
+    INSERT OR IGNORE INTO dishes(name, weight, composition, price, photo, category_id) VALUES
     ('Цезарь с креветками', 220, 'Листья салата, креветки, сыр пармезан, сухарики, соус цезарь', 280, 'images/Цезарь с креветками.jpg', 1),
     ('Оливье', 140, 'Картофель, морковь, горошек, соленые огурцы, колбаса, майонез', 200, 'images/Цезарь с креветками.jpg', 1),
     ('Винегрет', 120, 'Свекла, картофель, морковь, соленые огурцы, лук, растительное маслa', 200, 'images/Цезарь с креветками.jpg', 1),

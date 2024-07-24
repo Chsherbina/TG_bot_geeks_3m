@@ -30,5 +30,5 @@ async def start_handler(message: types.Message):
 
 @start_router.callback_query(F.data == 'about_us')
 async def about_us_handler(callback: types.CallbackQuery):
-    await callback.answer('Кушай много, становись больше')
-    await callback.massage.answer('Ресторан Ассорти: вкусная, традиционная, очень дальневосточная кухня')
+    await callback.message.answer('Ресторан Ассорти: вкусная, традиционная, очень дальневосточная кухня')
+    # await callback.massage.answer('Кушай много, становись больше')
