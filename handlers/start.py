@@ -6,7 +6,6 @@ start_router = Router()
 
 @start_router.message(Command('start'))
 async def start_handler(message: types.Message):
-    # print(message.from_user.id)
     kb = types.InlineKeyboardMarkup(
         inline_keyboard=[
             [

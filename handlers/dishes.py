@@ -35,6 +35,24 @@ async def menu_handler(message: types.Message):
 signal = ('салаты', 'первое', 'второе', 'десерты')
 
 
+@dishes_router.callback_query(F.data == 'рыба')
+async def fish_handler(callback: types.CallbackQuery):
+    photo3 = types.FSInputFile('images/рыба.jpg')
+    await callback.message.answer_photo(photo=photo3, caption='Рыбное ассорти\nЦена: 500')
+
+
+@dishes_router.callback_query(F.data == 'шашлык')
+async def shashlyk_handler(callback: types.CallbackQuery):
+    photo1 = types.FSInputFile('images/Шашлык.jpg')
+    await callback.message.answer_photo(photo=photo1, caption= 'Шашлык ассорти\nЦена: 500')
+
+
+@dishes_router.callback_query(F.data == 'мясо')
+async def meat_handler(callback: types.CallbackQuery):
+    photo2 = types.FSInputFile('images/мясное.jpg')
+    await callback.message.answer_photo(photo=photo2, caption='Мясное ассорти\nЦена: 500')
+
+
 @dishes_router.callback_query(lambda call: call.data in signal)
 async def dishes(call: types.CallbackQuery):
     query = """
@@ -51,21 +69,3 @@ async def dishes(call: types.CallbackQuery):
         await call.message.answer_photo(photo=photo, caption=f'Блюдо: {i[1]}\n'
                                                              f'Ингредиенты: {i[3]}. Вес: {i[2]}гр.\n'
                                                              f'Цена: {i[4]}')
-
-
-@dishes_router.message(F.text.lower() == 'шашлык')
-async def shashlyk_handler(message: types.Message):
-    photo1 = types.FSInputFile('images/Шашлык.jpg')
-    await message.answer_photo(photo=photo1, caption= 'Шашлык ассорти')
-
-
-@dishes_router.message(F.text.lower() == 'мясо')
-async def meat_handler(message: types.Message):
-    photo2 = types.FSInputFile('images/мясное.jpg')
-    await message.answer_photo(photo=photo2, caption='Мясное ассорти')
-
-
-@dishes_router.message(F.text.lower() == 'рыба')
-async def fish_handler(message: types.Message):
-    photo3 = types.FSInputFile('images/рыба.jpg')
-    await message.answer_photo(photo=photo3, caption='Рыбное ассорти')
